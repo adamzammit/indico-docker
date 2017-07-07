@@ -1,5 +1,17 @@
 version: "2"
 services:
+  indico-varnish:
+    image: eeacms/varnish                                                   
+    depends_on:                                                             
+      - indico-nginx                                                               
+    links:
+      - indico-nginx
+    ports:                                                                  
+        - "8086:6081"                                                       
+    environment:                                                            
+      BACKENDS: "indico-nginx"                                                     
+      BACKENDS_PORT: "80"                                                 
+      BACKENDS_PROBE_ENABLED: "false"  
   indico-web:
     build:
         context: ./indico
@@ -8,8 +20,6 @@ services:
     depends_on:
         - indico-redis
         - indico-postgres
-    ports:
-     - "8000:8000"
     links:
      - indico-redis
      - indico-postgres
@@ -21,6 +31,8 @@ services:
     volumes:
         - './data/archive:/opt/indico/archive:z'
         - './data/log:/opt/indico/log:z'
+        - './data/assets:/opt/indico/env/lib/python2.7/site-packages/indico/assets'
+        - './data/htdocs:/opt/indico/env/lib/python2.7/site-packages/indico/htdocs'
     tmpfs:
         - /opt/indico/tmp:rw,size=787448k,uid=1000
   indico-redis:
@@ -31,3 +43,15 @@ services:
         - POSTGRES_USER=indico
         - POSTGRES_PASSWORD=indicopass
         - POSTGRES_DB=indico
+  indico-nginx:
+    image: nginx
+    links:
+        - indico-web
+    volumes:
+        - ./nginx:/etc/nginx/conf.d/
+        - './data/log:/opt/indico/log:z'
+        - './data/assets:/opt/indico/env/lib/python2.7/site-packages/indico/assets'
+        - './data/htdocs:/opt/indico/env/lib/python2.7/site-packages/indico/htdocs'
+    volumes_from:
+        - indico-web
+

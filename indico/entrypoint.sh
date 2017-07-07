@@ -2,6 +2,13 @@
 
 . /opt/indico/env/bin/activate
 
+until pg_isready
+do
+        echo "."
+            sleep 1
+        done
+sleep 2
+
 psql -c 'SELECT * FROM events.events'
 
 if [ $? -eq 1 ]; then
@@ -12,4 +19,4 @@ if [ $? -eq 1 ]; then
 fi
 
 echo 'Starting Indico...'
-indico run -h 0.0.0.0 -u http://localhost:8000
+uwsgi --ini /opt/indico/indico.ini
