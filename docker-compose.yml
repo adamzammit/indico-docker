@@ -15,8 +15,6 @@ services:
   indico-web:
     build:
         context: ./indico
-        args:
-            base_url: "http:\\/\\/localhost:8086"
     depends_on:
         - indico-redis
         - indico-postgres
@@ -32,6 +30,8 @@ services:
      - PGDATABASE=indico
     tmpfs:
         - /opt/indico/tmp:rw,size=787448k,uid=1000
+    volumes:
+        - ./indico/indico.conf:/opt/indico/etc/indico.conf
   indico-redis:
     image: redis
   indico-postgres:
