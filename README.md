@@ -6,6 +6,7 @@ Changes:
 - Wait for postgres to be up before attempting database init
 - Use UWSGI with nginx and varnish
 - TeX support
+- SMTP mail support
 
 ```
 $ docker-compose up
