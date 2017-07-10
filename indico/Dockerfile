@@ -19,15 +19,15 @@ RUN mkdir /opt/indico && \
     mkdir -p /opt/indico/cache && \
     mkdir -p /opt/indico/archive
 
-VOLUME /opt/indico
 
 RUN chown -R indico:users /opt/indico
+
 
 RUN mkdir /home/indico
 RUN chown -R indico:users /home/indico
 
-COPY entrypoint.sh /opt/indico/entrypoint.sh
-RUN chmod 755 /opt/indico/entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
 
 USER indico
 RUN virtualenv /opt/indico/env
@@ -49,4 +49,8 @@ COPY indico.ini /opt/indico/indico.ini
 RUN sed -i "s/BASEURL/${base_url}/" /opt/indico/etc/indico.conf
 
 RUN echo ". $INDICO_VIRTUALENV/activate" > ~/.bashrc
-ENTRYPOINT /opt/indico/entrypoint.sh
+
+
+VOLUME /opt/indico
+
+ENTRYPOINT /entrypoint.sh

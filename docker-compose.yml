@@ -28,8 +28,6 @@ services:
      - PGUSER=indico
      - PGPASSWORD=indicopass
      - PGDATABASE=indico
-    volumes:
-        - './data:/opt/indico'
     tmpfs:
         - /opt/indico/tmp:rw,size=787448k,uid=1000
   indico-redis:
