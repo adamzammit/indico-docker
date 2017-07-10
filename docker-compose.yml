@@ -50,3 +50,7 @@ services:
         - indico-web
   indico-smtp:
     image: namshi/smtp
+    environment:
+        - MAILNAME=acspri.org.au
+    volumes:
+        - ./smtp/hubbed_hosts:/etc/exim4/hubbed_hosts
