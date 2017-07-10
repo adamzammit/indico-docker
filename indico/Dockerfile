@@ -19,8 +19,7 @@ RUN mkdir /opt/indico && \
     mkdir -p /opt/indico/cache && \
     mkdir -p /opt/indico/archive
 
-VOLUME /opt/indico/env/lib/python2.7/site-packages/indico/htdocs
-VOLUME /opt/indico/env/lib/python2.7/site-packages/indico/assets
+VOLUME /opt/indico
 
 RUN chown -R indico:users /opt/indico
 
@@ -48,9 +47,6 @@ RUN ${INDICO_VIRTUALENV}/indico setup create_configs /opt/indico/etc
 COPY indico.conf /opt/indico/etc/indico.conf
 COPY indico.ini /opt/indico/indico.ini
 RUN sed -i "s/BASEURL/${base_url}/" /opt/indico/etc/indico.conf
-
-VOLUME /opt/indico/archive
-VOLUME /opt/indico/log
 
 RUN echo ". $INDICO_VIRTUALENV/activate" > ~/.bashrc
 ENTRYPOINT /opt/indico/entrypoint.sh

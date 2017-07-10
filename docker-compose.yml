@@ -16,7 +16,7 @@ services:
     build:
         context: ./indico
         args:
-            base_url: "http:\\/\\/localhost:8000"
+            base_url: "http:\\/\\/localhost:8086"
     depends_on:
         - indico-redis
         - indico-postgres
@@ -29,10 +29,7 @@ services:
      - PGPASSWORD=indicopass
      - PGDATABASE=indico
     volumes:
-        - './data/archive:/opt/indico/archive:z'
-        - './data/log:/opt/indico/log:z'
-        - './data/assets:/opt/indico/env/lib/python2.7/site-packages/indico/assets'
-        - './data/htdocs:/opt/indico/env/lib/python2.7/site-packages/indico/htdocs'
+        - './data:/opt/indico'
     tmpfs:
         - /opt/indico/tmp:rw,size=787448k,uid=1000
   indico-redis:
@@ -49,9 +46,6 @@ services:
         - indico-web
     volumes:
         - ./nginx:/etc/nginx/conf.d/
-        - './data/log:/opt/indico/log:z'
-        - './data/assets:/opt/indico/env/lib/python2.7/site-packages/indico/assets'
-        - './data/htdocs:/opt/indico/env/lib/python2.7/site-packages/indico/htdocs'
     volumes_from:
         - indico-web
 
