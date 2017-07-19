@@ -42,7 +42,8 @@ RUN ${pip} install uwsgi
 RUN ${INDICO_VIRTUALENV}/indico setup create_symlinks /opt/indico
 RUN ${INDICO_VIRTUALENV}/indico setup create_configs /opt/indico/etc
 
-RUN git clone https://github.com/discogs/python-cas-client.git && \
+RUN cd && \
+    git clone https://github.com/discogs/python-cas-client.git && \
     cd python-cas-client && \
     ${pip} install . && \
     cd .. && \
