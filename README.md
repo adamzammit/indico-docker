@@ -7,7 +7,9 @@ Changes:
 - Use UWSGI with nginx and varnish
 - TeX support
 - SMTP mail support
+- CAS Authentication support for Flask Multipass from [xaionaro/flask-multipass-cas](https://github.com/xaionaro/flask-multipass-cas)
 
+If you want to use this script - please review the docker-compose.yml, indico/indico.conf and smtp/ files for specific config options
 ```
-$ docker-compose up
+$ docker-compose up -d
 ```
